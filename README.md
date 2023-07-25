@@ -1,8 +1,6 @@
 
 # Azure Function
 
-## Installation
-
 To run project locally
 
 1. Create Database
