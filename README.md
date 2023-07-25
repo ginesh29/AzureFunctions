@@ -21,5 +21,5 @@ CREATE TABLE [dbo].[Todos]
 ```
 3. Clone Repository
 ```bash
-Clone Project from [https://github.com/ginesh29/AzureFunctions.git](https://github.com/ginesh29/AzureFunctions.git)
+git clone https://github.com/ginesh29/AzureFunctions.git
 ```
