@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpTrigger.ViewModels
+namespace AzureFunctions.Entities
 {
-    public class ToDoUpdateModel
+    public class ToDo
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public DateTime CreatedTime { get; set; } = DateTime.UtcNow;
         public string TaskDescription { get; set; }
         public bool IsCompleted { get; set; }
     }

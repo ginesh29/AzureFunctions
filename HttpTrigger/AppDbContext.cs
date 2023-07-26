@@ -1,4 +1,4 @@
-﻿using HttpTrigger.Entities;
+﻿using AzureFunctions.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

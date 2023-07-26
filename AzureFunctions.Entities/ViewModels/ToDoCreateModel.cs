@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpTrigger.ViewModels
+namespace AzureFunctions.Entities.ViewModels
 {
     public class ToDoCreateModel
     {

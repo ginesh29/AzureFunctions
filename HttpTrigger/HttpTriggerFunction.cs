@@ -10,8 +10,8 @@ using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using HttpTrigger.Entities;
-using HttpTrigger.ViewModels;
+using AzureFunctions.Entities;
+using AzureFunctions.Entities.ViewModels;
 
 namespace HttpTrigger
 {
@@ -25,7 +25,7 @@ namespace HttpTrigger
         }
 
         [FunctionName("GetAllTodoItems")]
-        [OpenApiOperation(operationId: "RunGet", tags: new[] { "Todo" })]
+        [OpenApiOperation(tags: new[] { "Todo" })]
         public async Task<IActionResult> GetAllTodoItems(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = Route)] HttpRequest req,
             ILogger log)
@@ -36,7 +36,7 @@ namespace HttpTrigger
         }
 
         [FunctionName("GetTodoItemById")]
-        [OpenApiOperation(operationId: "RunGetById", tags: new[] { "Todo" })]
+        [OpenApiOperation(tags: new[] { "Todo" })]
         [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
         public async Task<IActionResult> GetTodoItemById(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = Route + "/{id}")] HttpRequest req,
@@ -52,7 +52,7 @@ namespace HttpTrigger
         }
 
         [FunctionName("PostTodoItem")]
-        [OpenApiOperation(operationId: "RunPost", tags: new[] { "Todo" })]
+        [OpenApiOperation(tags: new[] { "Todo" })]
         [OpenApiRequestBody(contentType: "text/json", bodyType: typeof(ToDoCreateModel))]
         public async Task<IActionResult> PostTodoItem(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = Route)] HttpRequest req,
@@ -64,11 +64,11 @@ namespace HttpTrigger
             var todo = new ToDo { TaskDescription = input.TaskDescription };
             await _context.Todos.AddAsync(todo);
             await _context.SaveChangesAsync();
-            return new CreatedAtRouteResult("GetTodoItemById", routeValues: new { id = todo.Id }, value: todo);
+            return new CreatedAtRouteResult("GetTodoItemById", new { id = todo.Id }, todo);
         }
 
         [FunctionName("UpdateTodoItem")]
-        [OpenApiOperation(operationId: "RunPut", tags: new[] { "Todo" })]
+        [OpenApiOperation(tags: new[] { "Todo" })]
         [OpenApiRequestBody(contentType: "text/json", bodyType: typeof(ToDoUpdateModel))]
         public async Task<IActionResult> UpdateTodoItem(
             [HttpTrigger(AuthorizationLevel.Function, "put", Route = Route)] HttpRequest req,
@@ -92,7 +92,7 @@ namespace HttpTrigger
         }
 
         [FunctionName("DeleteTodoItem")]
-        [OpenApiOperation(operationId: "RunDelete", tags: new[] { "Todo" })]
+        [OpenApiOperation(tags: new[] { "Todo" })]
         [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
         public async Task<IActionResult> DeleteTodoItem(
             [HttpTrigger(AuthorizationLevel.Function, "delete", Route = Route + "/{id}")] HttpRequest req,
