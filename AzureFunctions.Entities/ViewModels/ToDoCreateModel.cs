@@ -8,6 +8,6 @@ namespace AzureFunctions.Entities.ViewModels
 {
     public class ToDoCreateModel
     {
-        public string TaskDescription { get; set; }
+        public string TaskDescription { get; set; } = string.Empty;
     }
 }

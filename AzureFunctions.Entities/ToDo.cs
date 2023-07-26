@@ -10,7 +10,7 @@ namespace AzureFunctions.Entities
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public DateTime CreatedTime { get; set; } = DateTime.UtcNow;
-        public string TaskDescription { get; set; }
+        public string TaskDescription { get; set; } = string.Empty;
         public bool IsCompleted { get; set; }
     }
 }

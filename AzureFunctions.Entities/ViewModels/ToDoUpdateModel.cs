@@ -9,7 +9,7 @@ namespace AzureFunctions.Entities.ViewModels
     public class ToDoUpdateModel
     {
         public Guid Id { get; set; }
-        public string TaskDescription { get; set; }
+        public string TaskDescription { get; set; } = string.Empty;
         public bool IsCompleted { get; set; }
     }
 }
