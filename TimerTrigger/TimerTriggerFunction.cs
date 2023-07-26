@@ -5,9 +5,9 @@ using Microsoft.Extensions.Logging;
 
 namespace TimerTrigger
 {
-    public class Function1
+    public class TimerTriggerFunction
     {
-        [FunctionName("Function1")]
+        [FunctionName("TimerTriggerFunction")]
         public void Run([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
