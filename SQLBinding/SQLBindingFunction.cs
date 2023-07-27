@@ -33,20 +33,19 @@ namespace SQLBinding
 
         [FunctionName("GetTodoItemById")]
         [OpenApiOperation(tags: new[] { "Todo" })]
-        [OpenApiParameter(name: "id", In = ParameterLocation.Query, Required = true, Type = typeof(Guid))]
+        [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
         public IActionResult GetTodoItemById(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "GetTodoItemById")] HttpRequest req,
-            [Sql("SELECT * FROM [dbo].[ToDos] where Id = @Id",
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "todo/{id}")] HttpRequest req,
+            [Sql("SELECT * FROM [dbo].[ToDos] where Id = @id",
             connectionStringSetting: "SqlConnectionString",
             commandType: System.Data.CommandType.Text,
-            parameters: "@Id={Query.id}"
+            parameters:"@Id={id}"
             )] IEnumerable<Object> toDoItems,
-            ILogger log)
+            ILogger log, Guid id)
         {
             var todoItem = toDoItems?.FirstOrDefault();
             if (todoItem == null)
             {
-                var id = req.Query["Id"];
                 log.LogInformation($"Item {id} not found");
                 return new NotFoundResult();
             }
@@ -97,13 +96,15 @@ namespace SQLBinding
         }
         [FunctionName("DeleteTodoItem")]
         [OpenApiOperation(tags: new[] { "Todo" })]
-        [OpenApiParameter(name: "id", In = ParameterLocation.Query, Required = true, Type = typeof(Guid))]
+        [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
         public IActionResult DeleteTodoItem(
-            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = Route)] HttpRequest req,
-            [Sql(commandText: "DeleteToDo", commandType: System.Data.CommandType.StoredProcedure,
-                parameters: "@Id={Query.id}", connectionStringSetting: "SqlConnectionString")]
-                IEnumerable<ToDo> toDoItems,
-                ILogger log)
+            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "todo/{id}")] HttpRequest req,
+            [Sql("DELETE FROM [dbo].[ToDos] where Id = @id",
+            connectionStringSetting: "SqlConnectionString",
+            commandType: System.Data.CommandType.Text,
+            parameters:"@Id={id}"
+            )] IEnumerable<Object> toDoItems,
+            ILogger log)
         {
             log.LogInformation("Deleting a todo list item");
             return new NoContentResult();
